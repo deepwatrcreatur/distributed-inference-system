@@ -117,6 +117,8 @@
   erlang
   tigerbeetle
   iperf3
+  stow
+  oh-my-posh
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
