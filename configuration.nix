@@ -98,7 +98,7 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  services.tailscale.enable = true;
+  #services.tailscale.enable = true;
   #environment.systemPackages = with pkgs; [ tailscale ];
 
   # List packages installed in system profile. To search, run:
@@ -112,7 +112,6 @@
   curl
   pciutils
   nvtop
-  tailscale
   elixir
   erlang
   tigerbeetle
@@ -120,7 +119,12 @@
   stow
   oh-my-posh
   ];
-
+  #home-manager.users.deepwatrcreatur = { pkgs, ... }: {                                                                                                     
+  #  programs.oh-my-posh.enable = true;                                                                                                           
+  #  programs.oh-my-posh.useTheme = "atomic";                                                                                                     
+  #  programs.oh-my-posh.enableBashIntegration = true;                                                                                            
+  #  #home.stateVersion = "23.11";                                                                                                                 
+  #}; 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
