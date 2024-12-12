@@ -117,8 +117,32 @@
   tigerbeetle
   iperf3
   stow
+  home-manager
   oh-my-posh
+  zsh
   ];
+
+  # Enable ZSH
+  programs.zsh.enable = true;
+  # Set Zsh as default shell
+  users.defaultUserShell = pkgs.zsh;
+  # Enable OMZ
+  programs.zsh.ohMyZsh.enable = true;
+  programs.zsh.ohMyZsh.theme = "bira";
+  # Enable Syntax highlighting
+  programs.zsh.syntaxHighlighting.enable = true;
+  programs.zsh.syntaxHighlighting.highlighters = [ "main" "brackets" "pattern" "cursor" "regexp" "root" "line" ];
+  programs.zsh.syntaxHighlighting.styles = { "alias" = "fg=magenta,bold"; };
+  programs.zsh.syntaxHighlighting.patterns = { "rm -rf *" = "fg=white,bold,bg=red"; };
+  # Enable Zsh Auto Suggest
+  programs.zsh.autosuggestions.enable = true;  
+
+  #home-manager = {
+  #  useGlobalPkgs = true;
+  #  useUserPackages = true;
+  #  users.deepwatrcreatur = import ./home.nix;
+  #};
+
   #home-manager.users.deepwatrcreatur = { pkgs, ... }: {                                                                                                     
   #  programs.oh-my-posh.enable = true;                                                                                                           
   #  programs.oh-my-posh.useTheme = "atomic";                                                                                                     
