@@ -33,7 +33,7 @@
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   hardware.nvidia = {
 
     # Modesetting is required.
@@ -86,6 +86,7 @@
 
   # Enable automatic login for the user.
   services.xserver.displayManager.autoLogin.enable = true;
+  #services.displayManager.autoLogin = true;
   services.xserver.displayManager.autoLogin.user = "deepwatrcreatur";
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
@@ -111,7 +112,7 @@
   wget
   curl
   pciutils
-  nvtop
+  nvtopPackages.full
   elixir
   erlang
   tigerbeetle
