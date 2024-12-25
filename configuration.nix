@@ -85,7 +85,7 @@
   };
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.enable = true;
   #services.displayManager.autoLogin = true;
   services.xserver.displayManager.autoLogin.user = "deepwatrcreatur";
 
@@ -121,6 +121,7 @@
   home-manager
   oh-my-posh
   zsh
+  tmux
   ];
 
   # Enable ZSH
@@ -174,19 +175,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
-  systemd.services.tailscale-autoconnect = {
-  description = "Automatic connection to Tailscale";
-  after = [ "network-pre.target" "tailscale.service" ];
-  wants = [ "network-pre.target" "tailscale.service" ];
-  wantedBy = [ "multi-user.target" ];
-  serviceConfig.Type = "oneshot";
-  script = with pkgs; ''
-    sleep 2
-    status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackendState)"
-    if [ $status = "Running" ]; then # if tailscale is already running, exit
-      exit 0
-    fi
-    ${tailscale}/bin/tailscale up --authkey FILE:/path/to/your/tailscale/authkey
-  '';
-};
+  #};
 }
