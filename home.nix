@@ -103,11 +103,11 @@
   };
 
   # basic configuration of git, please change to your own
-  programs.git = {
-    enable = true;
-    userName = "Anwer Khan";
-    userEmail = "deepwatrcreatur@gmail.com";
-  };
+  #programs.git = {
+  #  enable = true;
+  #  userName = "Anwer Khan";
+  #  userEmail = "deepwatrcreatur@gmail.com";
+  #};
 
   # starship - an customizable prompt for any shell
   programs.starship = {
