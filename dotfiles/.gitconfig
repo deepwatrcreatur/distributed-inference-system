@@ -1,0 +1,11 @@
+[credential "https://github.com"]
+	helper = 
+	helper = !/run/current-system/sw/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/run/current-system/sw/bin/gh auth git-credential
+[user]
+	email = deepwatrcreatur@gmail.com
+	name = Anwer Khan
+[usern]
+	ame = Anwer Khan
