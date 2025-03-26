@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+ # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -16,7 +16,7 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
-
+  boot.kernelParams = [ "nomodeset" "vga=795"];
   networking.hostName = "inference1"; # Define your hostname.
 
   # Enable networking
@@ -125,19 +125,19 @@
   ];
 
   # Enable ZSH
-  programs.zsh.enable = true;
+  #programs.zsh.enable = true;
   # Set Zsh as default shell
-  users.defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.bash;
   # Enable OMZ
-  programs.zsh.ohMyZsh.enable = true;
-  programs.zsh.ohMyZsh.theme = "bira";
+  #programs.zsh.ohMyZsh.enable = true;
+  #programs.zsh.ohMyZsh.theme = "bira";
   # Enable Syntax highlighting
-  programs.zsh.syntaxHighlighting.enable = true;
-  programs.zsh.syntaxHighlighting.highlighters = [ "main" "brackets" "pattern" "cursor" "regexp" "root" "line" ];
-  programs.zsh.syntaxHighlighting.styles = { "alias" = "fg=magenta,bold"; };
-  programs.zsh.syntaxHighlighting.patterns = { "rm -rf *" = "fg=white,bold,bg=red"; };
+  #programs.zsh.syntaxHighlighting.enable = true;
+  #programs.zsh.syntaxHighlighting.highlighters = [ "main" "brackets" "pattern" "cursor" "regexp" "root" "line" ];
+  #programs.zsh.syntaxHighlighting.styles = { "alias" = "fg=magenta,bold"; };
+  #programs.zsh.syntaxHighlighting.patterns = { "rm -rf *" = "fg=white,bold,bg=red"; };
   # Enable Zsh Auto Suggest
-  programs.zsh.autosuggestions.enable = true;  
+  #programs.zsh.autosuggestions.enable = true;  
 
   #home-manager = {
   #  useGlobalPkgs = true;
@@ -146,9 +146,9 @@
   #};
 
   #home-manager.users.deepwatrcreatur = { pkgs, ... }: {                                                                                                     
-  #  programs.oh-my-posh.enable = true;                                                                                                           
-  #  programs.oh-my-posh.useTheme = "atomic";                                                                                                     
-  #  programs.oh-my-posh.enableBashIntegration = true;                                                                                            
+  #programs.oh-my-posh.enable = true;                                                                                                           
+  #programs.oh-my-posh.useTheme = "atomic";                                                                                                     
+  #programs.oh-my-posh.enableBashIntegration = true;                                                                                            
   #  #home.stateVersion = "23.11";                                                                                                                 
   #}; 
   # Some programs need SUID wrappers, can be configured further or are
@@ -174,6 +174,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
   #};
 }
