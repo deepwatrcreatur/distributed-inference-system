@@ -104,7 +104,6 @@
   nixpkgs.config.allowUnfree = true;
 
   #services.tailscale.enable = true;
-  #environment.systemPackages = with pkgs; [ tailscale ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -170,6 +169,16 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  services.ollama = {
+    enable = true;  # This enables the Ollama service to start automatically
+    # Optional settings:
+    # host = "0.0.0.0";  # Bind to all interfaces (default is 127.0.0.1)
+    # port = 11434;      # Default port, change if needed
+    # acceleration = "cuda";  # Enable GPU acceleration (e.g., "cuda" or "rocm")
+    # environmentVariables = {  # Set custom environment variables if needed
+    #   OLLAMA_HOST = "0.0.0.0";
+    # };
+  };
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ 22 ];
