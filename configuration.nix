@@ -11,6 +11,7 @@
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.download-buffer-size = 1048576000;
 
   # Bootloader.
   boot.loader.grub.enable = true;
@@ -68,7 +69,7 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-  nixpkgs.config.cudaSupport = true; # Enable CUDA system-wide
+  #nixpkgs.config.cudaSupport = true; # Enable CUDA system-wide
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
@@ -91,7 +92,7 @@
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
   #services.displayManager.autoLogin = true;
-  services.xserver.displayManager.autoLogin.user = "deepwatrcreatur";
+  services.displayManager.autoLogin.user = "deepwatrcreatur";
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
@@ -105,6 +106,7 @@
 
   #services.tailscale.enable = true;
 
+  # Override Open WebUI to use torch-bin
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -129,35 +131,12 @@
   zsh
   tmux
   ollama
+  open-webui
   ];
+  
 
-  # Enable ZSH
-  #programs.zsh.enable = true;
-  # Set Zsh as default shell
   users.defaultUserShell = pkgs.bash;
-  # Enable OMZ
-  #programs.zsh.ohMyZsh.enable = true;
-  #programs.zsh.ohMyZsh.theme = "bira";
-  # Enable Syntax highlighting
-  #programs.zsh.syntaxHighlighting.enable = true;
-  #programs.zsh.syntaxHighlighting.highlighters = [ "main" "brackets" "pattern" "cursor" "regexp" "root" "line" ];
-  #programs.zsh.syntaxHighlighting.styles = { "alias" = "fg=magenta,bold"; };
-  #programs.zsh.syntaxHighlighting.patterns = { "rm -rf *" = "fg=white,bold,bg=red"; };
-  # Enable Zsh Auto Suggest
-  #programs.zsh.autosuggestions.enable = true;  
 
-  #home-manager = {
-  #  useGlobalPkgs = true;
-  #  useUserPackages = true;
-  #  users.deepwatrcreatur = import ./home.nix;
-  #};
-
-  #home-manager.users.deepwatrcreatur = { pkgs, ... }: {                                                                                                     
-  #programs.oh-my-posh.enable = true;                                                                                                           
-  #programs.oh-my-posh.useTheme = "atomic";                                                                                                     
-  #programs.oh-my-posh.enableBashIntegration = true;                                                                                            
-  #  #home.stateVersion = "23.11";                                                                                                                 
-  #}; 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -172,13 +151,20 @@
   services.ollama = {
     enable = true;  # This enables the Ollama service to start automatically
     # Optional settings:
-    # host = "0.0.0.0";  # Bind to all interfaces (default is 127.0.0.1)
+    host = "0.0.0.0";  # Bind to all interfaces (default is 127.0.0.1)
     # port = 11434;      # Default port, change if needed
-    # acceleration = "cuda";  # Enable GPU acceleration (e.g., "cuda" or "rocm")
+    acceleration = "cuda";  # Enable GPU acceleration (e.g., "cuda" or "rocm")
     # environmentVariables = {  # Set custom environment variables if needed
     #   OLLAMA_HOST = "0.0.0.0";
     # };
   };
+
+  services.open-webui = {
+    enable = true;
+    port = 8080; # Default WebUI port
+    host = "0.0.0.0"; # Allow external access
+  };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ 22 ];
