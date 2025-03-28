@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports =
@@ -178,6 +178,18 @@
     # };
   };
 
+  systemd.services.ollama = {
+    environment = {
+      HOME = lib.mkForce "/ollama";
+      OLLAMA_MODELS = lib.mkForce "/ollama/models";
+    };
+    serviceConfig = {
+      # Combine all writable paths into a single ReadWritePaths entry
+      ReadWritePaths = lib.mkForce [ "/ollama" "/ollama/models" "/ollama/models/blobs" ];
+      WorkingDirectory= lib.mkForce /ollama;
+    };   
+  };
+
   services.open-webui = {
     enable = true;
     port = 8080; # Default WebUI port
@@ -189,6 +201,12 @@
   # networking.firewall.allowedUDPPorts = [ 22 ];
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
+
+  fileSystems."/ollama" = {
+    device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1";
+    fsType = "ext4";
+    options = [ "defaults" "rw" ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
