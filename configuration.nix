@@ -10,6 +10,34 @@
       ./hardware-configuration.nix
     ];
 
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.deepwatrcreatur = {
+    isNormalUser = true;
+    description = "Anwer Khan";
+    home = "/home/deepwatrcreatur";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+    ];
+  };
+
+  # Enable automatic login for the user.
+  services.displayManager.autoLogin.enable = true;
+  #services.displayManager.autoLogin = true;
+  services.displayManager.autoLogin.user = "deepwatrcreatur";
+
+  home-manager.users.deepwatrcreatur = { pkgs, ... }: {
+    home.stateVersion = "24.11"; # Adjust to your NixOS version
+    home.file = {
+      #".bashrc".source = ./dotfiles/.bashrc;
+      ".inputrc".source = ./dotfiles/.inputrc;
+      ".gitconfig".source = ./dotfiles/.gitconfig;
+      ".terminfo" = {
+        source = ./dotfiles/.terminfo;
+        recursive = true;
+      };
+    };
+  };
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.download-buffer-size = 1048576000;
 
@@ -80,20 +108,6 @@
     variant = "";
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.deepwatrcreatur = {
-    isNormalUser = true;
-    description = "Anwer Khan";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    ];
-  };
-
-  # Enable automatic login for the user.
-  services.displayManager.autoLogin.enable = true;
-  #services.displayManager.autoLogin = true;
-  services.displayManager.autoLogin.user = "deepwatrcreatur";
-
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
@@ -128,12 +142,17 @@
   stow
   home-manager
   oh-my-posh
-  zsh
+  #zsh
+  starship
   tmux
   ollama
   open-webui
   ];
-  
+
+  environment.interactiveShellInit = ''
+      eval "$(oh-my-posh init bash --config ${pkgs.oh-my-posh}/share/oh-my-posh/themes/jandedobbeleer.omp.json)"
+    '';
+
 
   users.defaultUserShell = pkgs.bash;
 
