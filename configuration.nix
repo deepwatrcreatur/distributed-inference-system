@@ -155,6 +155,8 @@
     ghostty
     kitty
     nushell
+    htop
+    btop
     git
     gitAndTools.gh
     wget
