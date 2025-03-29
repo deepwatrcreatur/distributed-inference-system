@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./cachix.nix
     ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -38,8 +39,23 @@
     };
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.download-buffer-size = 1048576000;
+  # nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # nix.settings.download-buffer-size = 1048576000;
+
+  nix = {
+    settings = {
+      download-buffer-size = 1048576000;
+      experimental-features = [ "nix-command" "flakes" ];
+      substituters = [
+        "https://cache.nixos.org"
+        "https://cuda-maintainers.cachix.org" # CUDA-specific cache
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      ];
+    };
+  };
 
   # Bootloader.
   boot.loader.grub.enable = true;
@@ -174,6 +190,12 @@
     starship
     tmux
     ollama
+    llama-cpp
+    #(llama-cpp.override {
+    #   cudaSupport = true;
+    #   # Optional: specify which CUDA version to use
+    #   # cudaPackages = pkgs.cudaPackages_12_x; # Adjust version as needed
+    #   })
     open-webui
     ceph-client
   ];
