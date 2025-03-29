@@ -46,6 +46,7 @@
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
   boot.kernelParams = [ "nomodeset" "vga=795"];
+  boot.kernelModules = [ "ceph" ];
   networking.hostName = "inference1"; # Define your hostname.
 
   # Enable networking
@@ -123,30 +124,56 @@
   # Override Open WebUI to use torch-bin
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+  
+  environment.etc."ceph/ceph.conf".text = ''
+    [global]
+    mon_host = 10.10.11.55:6789  # Replace with your MON addresses
+  '';
+  environment.etc."ceph/admin.secret".text = ''
+    AQBIfuZn15t6BhAACU50sq1eO62VEBzMXpq5HQ==  # Replace with your actual raw key (no [client.admin] or key =)
+  '';
+  #environment.etc."ceph/ceph.client.admin.keyring".text = ''
+  #  [client.admin]
+  #  key = AQBIfuZn15t6BhAACU50sq1eO62VEBzMXpq5HQ==  # Replace with your actual key
+  #'';
+  
+  # Define the CephFS mount
+  fileSystems."/ollama" = {
+    device = "10.10.11.55:6789:/";  # Replace with your MON address
+    fsType = "ceph";
+    options = [
+      "name=admin"  # Ceph client name
+      "secretfile=/etc/ceph/admin.secret"  
+      "_netdev"  # Ensures mounting happens after network is up
+      "noatime"  # Optional: improves performance
+    ];
+  };
+
   environment.systemPackages = with pkgs; [
-  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  neovim
-  ghostty
-  kitty
-  nushell
-  git
-  gitAndTools.gh
-  wget
-  curl
-  pciutils
-  nvtopPackages.full
-  elixir
-  erlang
-  tigerbeetle
-  iperf3
-  stow
-  home-manager
-  oh-my-posh
-  #zsh
-  starship
-  tmux
-  ollama
-  open-webui
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    neovim
+    ghostty
+    kitty
+    nushell
+    git
+    gitAndTools.gh
+    wget
+    curl
+    pciutils
+    nvtopPackages.full
+    elixir
+    erlang
+    tigerbeetle
+    iperf3
+    stow
+    home-manager
+    oh-my-posh
+    #zsh
+    starship
+    tmux
+    ollama
+    open-webui
+    ceph-client
   ];
 
   environment.interactiveShellInit = ''
@@ -202,11 +229,11 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
-  fileSystems."/ollama" = {
-    device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1";
-    fsType = "ext4";
-    options = [ "defaults" "rw" ];
-  };
+  #fileSystems."/ollama" = {
+  #  device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1";
+  #  fsType = "ext4";
+  #  options = [ "defaults" "rw" ];
+  #};
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
