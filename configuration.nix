@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, lib, pkgs, ... }:
 
 {
@@ -21,7 +17,7 @@
     settings.trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
-      "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhYzEzYTIxYi04YjNjLTRiOWItOWZkNi0zMDFiMGI1OTgxYzkiLCJzY29wZXMiOiJ0eCJ9.sbMnRX6VrXOUuk3xDsexXhizf3SlX4zvjOYRMZbwmsc"  # Replace with your cache server's public key
+      "10.10.11.51-1:llD3lxx6mYdoYmILd5ujqe7Hy6OVqs8aYKTIe4r/325IeRFwGL9EgswRIKxTEf+ZXhnysyW7SKH7tqL0ETeRNw=="
     ];
     distributedBuilds = true;
     buildMachines = [
@@ -129,15 +125,8 @@
     # Enable the Nvidia settings menu,
 	# accessible via `nvidia-settings`.
     nvidiaSettings = true;
-    package = pkgs.linuxPackages.nvidia_x11.overrideAttrs (oldAttrs: {
-      version = "570.133.07";
-      src = pkgs.fetchurl {
-        url = "https://download.nvidia.com/XFree86/Linux-x86_64/570.133.07/NVIDIA-Linux-x86_64-570.133.07.run";
-        sha256 = "09nwqj6w1vfwv79q8hpm8mnyydq0m4d8p2799mayzr8vb16fchrd"; # You’ll need to find or compute this
-      };
-    });
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    #package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
 
   nixpkgs.config.cudaSupport = true; # Enable CUDA system-wide
@@ -209,6 +198,7 @@
     ghostty
     kitty
     nushell
+    #netdata
     htop
     btop
     git
@@ -263,8 +253,7 @@
       OLLAMA_HOST = "0.0.0.0";
       HOME = "/models/ollama";
       };
-  };
-
+    };
   systemd.services.ollama = {
     environment = {
       HOME = lib.mkForce "/models/ollama";
