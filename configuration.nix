@@ -13,16 +13,16 @@
     settings.download-buffer-size = 1048576000;
 
     # List of binary caches to use (default includes cache.nixos.org)
-    settings.substituters = [ "http://10.10.11.51:5000" "https://cache.nixos.org/" "https://cuda-maintainers.cachix.org"];
+    settings.substituters = [ "https://cache.nixos.org/" "https://cuda-maintainers.cachix.org http://cache.deepwatercreature.com"];
     settings.trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
-      "10.10.11.51-1:llD3lxx6mYdoYmILd5ujqe7Hy6OVqs8aYKTIe4r/325IeRFwGL9EgswRIKxTEf+ZXhnysyW7SKH7tqL0ETeRNw=="
+      "cache.deepwatercreature.com-1:n7+NSSNvxLJBRpjB8ai2zsVtK1L9mnFtEnulbd4/lUY="
     ];
     distributedBuilds = true;
     buildMachines = [
       {
-        hostName = "10.10.11.51";
+        hostName = "cache.deepwatercreature.com";
         system = "x86_64-linux";  # Adjust if different (check with `uname -m` on cache server)
         maxJobs = 8;  # Match CPU cores or adjust
         speedFactor = 2;  # Priority over other builders
@@ -35,14 +35,6 @@
       trusted-users = [ "root" "@wheel" ];  # Client-side trust
     };
   };
-
-  #nixpkgs.overlays = [
-  #  (self: super: {
-  #    opencv4 = super.opencv4.override {
-  #      enableCuda = false; # Disable CUDA support
-  #    };
-  #  })
-  #];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.deepwatrcreatur = {
@@ -175,11 +167,7 @@
   environment.etc."ceph/admin.secret".text = ''
     AQBIfuZn15t6BhAACU50sq1eO62VEBzMXpq5HQ==  # Replace with your actual raw key (no [client.admin] or key =)
   '';
-  #environment.etc."ceph/ceph.client.admin.keyring".text = ''
-  #  [client.admin]
-  #  key = AQBIfuZn15t6BhAACU50sq1eO62VEBzMXpq5HQ==  # Replace with your actual key
-  #'';
-  
+
   # Define the CephFS mount
   fileSystems."/models" = {
     device = "10.10.11.55:6789:/";  # Replace with your MON address
@@ -198,7 +186,7 @@
     ghostty
     kitty
     nushell
-    #netdata
+    netdata
     htop
     btop
     git
