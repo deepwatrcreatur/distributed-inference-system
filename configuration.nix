@@ -231,6 +231,8 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  services.netdata.enable = true;
+
   services.ollama = {
     enable = true;  # This enables the Ollama service to start automatically
     # Optional settings:
