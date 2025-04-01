@@ -3,7 +3,18 @@
 {
   # TODO please change the username & home directory to your own
   home.username = "deepwatrcreatur";
-  home.homeDirectory = "/home/deepwatrcreatur";
+  home.homeDirectory = "/home/deepwatrcreatur"; 
+  #home.backupFileExtension = "backup";
+  #home.file = {
+  #  ".inputrc".source = ./dotfiels/.inputrc
+  #  ".gitconfig".source = ./dotfiles/.gitconfig
+  #  ".bashrc".source = ./dotfiles/.bashrc
+  #};
+
+  xdg.configFile.".bashrc".source = ./dotfiles/.bashrc;
+  xdg.configFile.".inputrc".source = ./dotfiles/.inputrc;
+  xdg.configFile."helix/config.toml".source = ./dotfiles/helix/config.toml;
+  xdg.configFile.".gitconfig".source = ./dotfiles/.gitconfig;
 
   # link the configuration file in current directory to the specified location in home directory
   # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
@@ -50,7 +61,6 @@
 
     # networking tools
     mtr # A network diagnostic tool
-    iperf3
     dnsutils  # `dig` + `nslookup`
     ldns # replacement of `dig`, it provide the command `drill`
     aria2 # A lightweight multi-protocol & multi-source command-line download utility
@@ -59,7 +69,6 @@
     ipcalc  # it is a calculator for the IPv4/v6 addresses
 
     # misc
-    cowsay
     file
     which
     tree
@@ -75,11 +84,6 @@
     # with more details log output
     nix-output-monitor
 
-    # productivity
-    hugo # static site generator
-    glow # markdown previewer in terminal
-
-    btop  # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
 
@@ -90,17 +94,15 @@
 
     # system tools
     sysstat
-    lm_sensors # for `sensors` command
     ethtool
-    pciutils # lspci
     usbutils # lsusb
   ];
 
-  programs.oh-my-posh = {
-    enable = true;
-    enableZshIntegration = true;
-    settings = "./config/ohmyposh/zen.toml";
-  };
+  #programs.oh-my-posh = {
+  #  enable = true;
+  #  enableZshIntegration = true;
+  #  settings = "./config/ohmyposh/zen.toml";
+  #};
 
   # basic configuration of git, please change to your own
   #programs.git = {
@@ -136,21 +138,21 @@
     };
   };
 
-  programs.bash = {
-    enable = true;
-    enableCompletion = true;
-    # TODO add your custom bashrc here
-    bashrcExtra = ''
-      export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
-    '';
+  #programs.bash = {
+  #  enable = true;
+  #  enableCompletion = true;
+  #  # TODO add your custom bashrc here
+  #  bashrcExtra = ''
+  #    export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
+  #  '';
 
     # set some aliases, feel free to add more or remove some
-    shellAliases = {
-      k = "kubectl";
-      urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
-      urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
-    };
-  };
+  #  shellAliases = {
+  #    k = "kubectl";
+  #    urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
+  #    urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
+  #  };
+  #};
 
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage
