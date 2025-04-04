@@ -189,6 +189,7 @@
     nushell
     bat
     fzf
+    yazi
     netdata
     htop
     btop
