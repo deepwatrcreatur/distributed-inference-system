@@ -206,6 +206,9 @@
     stow
     home-manager
     oh-my-posh
+    sops
+    age
+    ssh-to-age  # For converting SSH keys to age keys
     starship
     tmux
     ollama
