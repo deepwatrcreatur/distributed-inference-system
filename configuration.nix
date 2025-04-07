@@ -164,13 +164,13 @@
     [global]
     mon_host = 10.10.11.55:6789  # Replace with your MON addresses
   '';
-  environment.etc."ceph/admin.secret".text = ''
+  environment.etc."ceph/ceph.keyring".text = ''
     AQBIfuZn15t6BhAACU50sq1eO62VEBzMXpq5HQ==  # Replace with your actual raw key (no [client.admin] or key =)
   '';
 
   # Define the CephFS mount
   fileSystems."/models" = {
-    device = "10.10.11.55:6789:/";  # Replace with your MON address
+    device = "10.10.11.55:6789:/models";  # Replace with your MON address
     fsType = "ceph";
     options = [
       "name=admin"  # Ceph client name
