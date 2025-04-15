@@ -142,7 +142,7 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  #services.tailscale.enable = true;
+  services.tailscale.enable = true;
 
   # Override Open WebUI to use torch-bin
   # List packages installed in system profile. To search, run:
@@ -159,24 +159,22 @@
     ];
     LLAMA_CPP_MODEL_PATH = "/models/llama_models";
   };
-  
   environment.etc."ceph/ceph.conf".text = ''
     [global]
-    mon_host = 10.10.11.55:6789  # Replace with your MON addresses
+    mon_host = 10.10.11.55:6789
   '';
   environment.etc."ceph/ceph.keyring".text = ''
-    AQBIfuZn15t6BhAACU50sq1eO62VEBzMXpq5HQ==  # Replace with your actual raw key (no [client.admin] or key =)
+    AQBIfuZn15t6BhAACU50sq1eO62VEBzMXpq5HQ==
   '';
 
-  # Define the CephFS mount
   fileSystems."/models" = {
-    device = "10.10.11.55:6789:/models";  # Replace with your MON address
+    device = "10.10.11.55:6789:/models";  # Mount CephFS root
     fsType = "ceph";
     options = [
-      "name=admin"  # Ceph client name
-      "secretfile=/etc/ceph/admin.secret"  
-      "_netdev"  # Ensures mounting happens after network is up
-      "noatime"  # Optional: improves performance
+      "name=admin"
+      "secretfile=/etc/ceph/ceph.keyring"
+      "_netdev"
+      "noatime"
     ];
   };
 
@@ -193,6 +191,7 @@
     netdata
     htop
     btop
+    tailscale
     git
     gitAndTools.gh
     wget
